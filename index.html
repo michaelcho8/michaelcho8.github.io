@@ -1,1 +1,69 @@
-<h1>My Portfolio</h1>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Michael Cho — Portfolio</title>
+  <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
+  <style>
+    :root { --pico-font-size: 100%; }
+    main { max-width: 820px; margin: 0 auto; padding: 2rem 1rem; }
+    header, footer { max-width: 820px; margin: 0 auto; padding: 1rem; }
+    .grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit,minmax(240px,1fr)); }
+    .muted { color: var(--pico-muted-color); }
+    img { border-radius: 12px; width: 100%; height: auto; }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <ul><li><strong>Michael Cho</strong></li></ul>
+      <ul>
+        <li><a href="#work">Work</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="mailto:you@email.com">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h1 class="muted">Robotics & Software Projects</h1>
+    <p>Project scheduler turned aspiring robotics engineer. Python, C++, ROS, and computer vision projects.</p>
+
+    <h2 id="work">Selected Work</h2>
+    <div class="grid">
+      <article>
+        <h3>Handwritten OCR Pipeline</h3>
+        <p>Extracts handwritten text from scanned forms using OpenCV + Tesseract. Batch processing and upload.</p>
+        <p><a href="https://github.com/youruser/Doc-Reader" role="button">View on GitHub</a></p>
+      </article>
+      <article>
+        <h3>Smartsheet Automations</h3>
+        <p>Python scripts for syncing project schedules, generating reports, and QA checklists via REST API.</p>
+        <p><a href="https://github.com/youruser/smartsheet-automation" role="button">View on GitHub</a></p>
+      </article>
+      <article>
+        <h3>Property Crawler</h3>
+        <p>FastAPI + Firecrawl demo for scraping public property data with retries and stealth mode.</p>
+        <p><a href="https://github.com/youruser/property-firecrawl" role="button">View on GitHub</a></p>
+      </article>
+    </div>
+
+    <h2 id="about">About</h2>
+    <p>
+      I build practical automation and perception demos while preparing for an MS in robotics (perception).
+      I like minimal, fast, accessible web pages and clear documentation.
+    </p>
+    <p>
+      <a href="https://github.com/youruser">GitHub</a> ·
+      <a href="https://www.linkedin.com/in/yourprofile">LinkedIn</a> ·
+      <a href="mailto:you@email.com">Email</a>
+    </p>
+  </main>
+
+  <footer>
+    <small class="muted">© <span id="y"></span> Michael Cho</small>
+  </footer>
+  <script>document.getElementById('y').textContent = new Date().getFullYear()</script>
+</body>
+</html>
