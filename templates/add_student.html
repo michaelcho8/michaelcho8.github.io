@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Add Student - Tutoring Payment Manager{% endblock %}
+
+{% block content %}
+<h1>Add New Student</h1>
+
+<form method="POST">
+    <div class="grid">
+        <div>
+            <label for="name">Full Name *</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        <div>
+            <label for="email">Email Address *</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+    </div>
+
+    <div class="grid">
+        <div>
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone">
+        </div>
+        <div>
+            <label for="package_type">Package Type</label>
+            <select id="package_type" name="package_type">
+                <option value="Individual">Individual Sessions</option>
+                <option value="Weekly">Weekly Package</option>
+                <option value="Intensive">Intensive Package</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="grid">
+        <div>
+            <label for="hourly_rate">Hourly Rate ($)</label>
+            <input type="number" id="hourly_rate" name="hourly_rate" step="0.01" value="50.00">
+        </div>
+        <div></div>
+    </div>
+
+    <fieldset>
+        <legend>Parent/Guardian Information (Optional)</legend>
+        <div class="grid">
+            <div>
+                <label for="parent_name">Parent Name</label>
+                <input type="text" id="parent_name" name="parent_name">
+            </div>
+            <div>
+                <label for="parent_email">Parent Email</label>
+                <input type="email" id="parent_email" name="parent_email">
+            </div>
+        </div>
+    </fieldset>
+
+    <div style="margin-top: 2rem;">
+        <button type="submit">Add Student</button>
+        <a href="{{ url_for('students') }}" role="button" class="outline">Cancel</a>
+    </div>
+</form>
+{% endblock %}

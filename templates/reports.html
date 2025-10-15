@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block title %}Reports - Tutoring Payment Manager{% endblock %}
+
+{% block content %}
+<h1>Reports & Analytics</h1>
+
+<div class="grid">
+    <div>
+        <h2>Outstanding Balances</h2>
+        <div class="table-container">
+            {% if balance_df is defined and not balance_df.empty %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Total Owed</th>
+                        <th>Total Paid</th>
+                        <th>Balance Due</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for _, row in balance_df.iterrows() %}
+                    <tr>
+                        <td>{{ row.name }}</td>
+                        <td>${{ "%.2f"|format(row.total_owed) }}</td>
+                        <td>${{ "%.2f"|format(row.total_paid) }}</td>
+                        <td class="{% if row.balance_due > 0 %}balance-negative{% else %}balance-positive{% endif %}">
+                            ${{ "%.2f"|format(row.balance_due) }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>No balance data available.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div>
+        <h2>Monthly Revenue</h2>
+        <div class="table-container">
+            {% if revenue_df is defined and not revenue_df.empty %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Month</th>
+                        <th>Sessions</th>
+                        <th>Revenue</th>
+                        <th>Hours</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for _, row in revenue_df.iterrows() %}
+                    <tr>
+                        <td>{{ row.month }}</td>
+                        <td>{{ row.sessions_completed }}</td>
+                        <td>${{ "%.2f"|format(row.revenue) }}</td>
+                        <td>{{ "%.1f"|format(row.total_hours) }}h</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>No revenue data available.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div>
+    <h2>Payment Summary by Method</h2>
+    <div class="table-container">
+        {% if payment_summary_df is defined and not payment_summary_df.empty %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Month</th>
+                    <th>Method</th>
+                    <th>Count</th>
+                    <th>Total Amount</th>
+                    <th>Percentage</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for _, row in payment_summary_df.iterrows() %}
+                <tr>
+                    <td>{{ row.month }}</td>
+                    <td>{{ row.payment_method }}</td>
+                    <td>{{ row.payment_count }}</td>
+                    <td>${{ "%.2f"|format(row.total_received) }}</td>
+                    <td>{{ "%.1f"|format(row.percentage) }}%</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No payment summary data available.</p>
+        {% endif %}
+    </div>
+</div>
+
+<div style="margin-top: 2rem;">
+    <h2>Generate Invoice</h2>
+    <form method="GET" action="{{ url_for('generate_invoice', student_id=0, month_year='') }}" 
+          onsubmit="this.action = this.action.replace('/0/', '/' + this.student_id.value + '/').replace('/', '/' + this.month_year.value)">
+        <div class="grid">
+            <div>
+                <label for="student_id">Student</label>
+                <select name="student_id" required>
+                    <option value="">Select a student</option>
+                    {% for _, row in balance_df.iterrows() %}
+                    <option value="{{ row.id }}">{{ row.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label for="month_year">Month (YYYY-MM)</label>
+                <input type="month" name="month_year" required>
+            </div>
+        </div>
+        <button type="submit" style="margin-top: 1rem;">Generate Invoice</button>
+    </form>
+</div>
+{% endblock %}

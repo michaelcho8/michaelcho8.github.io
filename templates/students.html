@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Students - Tutoring Payment Manager{% endblock %}
+
+{% block content %}
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+    <h1>Students</h1>
+    <a href="{{ url_for('add_student') }}" role="button">Add New Student</a>
+</div>
+
+<div class="table-container">
+    {% if students is defined and not students.empty %}
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Package</th>
+                <th>Rate/Hour</th>
+                <th>Parent Contact</th>
+                <th>Active</th>
+                <th>Created</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for _, student in students.iterrows() %}
+            <tr>
+                <td>{{ student.id }}</td>
+                <td><strong>{{ student.name }}</strong></td>
+                <td>{{ student.email }}</td>
+                <td>{{ student.phone or '-' }}</td>
+                <td>{{ student.package_type }}</td>
+                <td>${{ "%.2f"|format(student.hourly_rate) }}</td>
+                <td>
+                    {% if student.parent_name %}
+                        {{ student.parent_name }}<br>
+                        <small>{{ student.parent_email or '' }}</small>
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+                <td>{{ '✓' if student.is_active else '✗' }}</td>
+                <td>{{ student.created_date }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div style="text-align: center; padding: 3rem;">
+        <p>No students found. <a href="{{ url_for('add_student') }}">Add your first student</a>.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

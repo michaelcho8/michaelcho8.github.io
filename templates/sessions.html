@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Sessions - Tutoring Payment Manager{% endblock %}
+
+{% block content %}
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+    <h1>Sessions</h1>
+    <a href="{{ url_for('add_session') }}" role="button">Record New Session</a>
+</div>
+
+<div class="table-container">
+    {% if sessions is defined and not sessions.empty %}
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Student</th>
+                <th>Time</th>
+                <th>Duration</th>
+                <th>Subject</th>
+                <th>Cost</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for _, session in sessions.iterrows() %}
+            <tr>
+                <td>{{ session.session_date }}</td>
+                <td><strong>{{ session.student_name }}</strong></td>
+                <td>{{ session.start_time }} - {{ session.end_time }}</td>
+                <td>{{ session.duration_hours }}h</td>
+                <td>{{ session.subject }}</td>
+                <td>${{ "%.2f"|format(session.session_cost) }}</td>
+                <td class="status-{{ session.status.lower() }}">{{ session.status }}</td>
+                <td>
+                    {% if session.status == 'Scheduled' %}
+                        <a href="{{ url_for('update_session_status', session_id=session.id, status='Completed') }}" 
+                           style="font-size: 0.8rem;">Complete</a> |
+                        <a href="{{ url_for('update_session_status', session_id=session.id, status='Cancelled') }}" 
+                           style="font-size: 0.8rem;">Cancel</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div style="text-align: center; padding: 3rem;">
+        <p>No sessions recorded yet. <a href="{{ url_for('add_session') }}">Record your first session</a>.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
