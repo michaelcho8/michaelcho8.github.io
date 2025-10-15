@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Payments - Tutoring Payment Manager{% endblock %}
+
+{% block content %}
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+    <h1>Payments</h1>
+    <a href="{{ url_for('add_payment') }}" role="button">Record New Payment</a>
+</div>
+
+<div class="table-container">
+    {% if payments is defined and not payments.empty %}
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Student</th>
+                <th>Amount</th>
+                <th>Method</th>
+                <th>Reference</th>
+                <th>Notes</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for _, payment in payments.iterrows() %}
+            <tr>
+                <td>{{ payment.payment_date }}</td>
+                <td><strong>{{ payment.student_name }}</strong></td>
+                <td>${{ "%.2f"|format(payment.amount) }}</td>
+                <td>{{ payment.payment_method }}</td>
+                <td>{{ payment.reference_number or '-' }}</td>
+                <td>{{ payment.notes or '-' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div style="text-align: center; padding: 3rem;">
+        <p>No payments recorded yet. <a href="{{ url_for('add_payment') }}">Record your first payment</a>.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Tutoring Payment Manager{% endblock %}
+
+{% block content %}
+<h1>Dashboard</h1>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-value">${{ "%.2f"|format(total_outstanding) }}</div>
+        <div>Total Outstanding</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">{{ total_students }}</div>
+        <div>Active Students</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">${{ "%.2f"|format(current_month_revenue) }}</div>
+        <div>This Month Revenue</div>
+    </div>
+</div>
+
+<div class="grid">
+    <div>
+        <h2>Student Balances</h2>
+        <div class="table-container">
+            {% if balance_df is defined and not balance_df.empty %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Email</th>
+                        <th>Total Owed</th>
+                        <th>Total Paid</th>
+                        <th>Balance Due</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for _, row in balance_df.iterrows() %}
+                    <tr>
+                        <td>{{ row.name }}</td>
+                        <td>{{ row.email }}</td>
+                        <td>${{ "%.2f"|format(row.total_owed) }}</td>
+                        <td>${{ "%.2f"|format(row.total_paid) }}</td>
+                        <td class="{% if row.balance_due > 0 %}balance-negative{% else %}balance-positive{% endif %}">
+                            ${{ "%.2f"|format(row.balance_due) }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>No student data available.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div>
+        <h2>Monthly Revenue</h2>
+        <div class="table-container">
+            {% if revenue_df is defined and not revenue_df.empty %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Month</th>
+                        <th>Sessions</th>
+                        <th>Revenue</th>
+                        <th>Hours</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for _, row in revenue_df.iterrows() %}
+                    <tr>
+                        <td>{{ row.month }}</td>
+                        <td>{{ row.sessions_completed }}</td>
+                        <td>${{ "%.2f"|format(row.revenue) }}</td>
+                        <td>{{ "%.1f"|format(row.total_hours) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>No revenue data available.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="nav-links">
+    <a href="{{ url_for('add_student') }}" role="button">Add New Student</a>
+    <a href="{{ url_for('add_session') }}" role="button">Record Session</a>
+    <a href="{{ url_for('add_payment') }}" role="button">Record Payment</a>
+    <a href="{{ url_for('reports') }}" role="button">View Reports</a>
+</div>
+{% endblock %}

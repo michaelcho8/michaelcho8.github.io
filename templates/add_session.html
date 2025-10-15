@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}Add Session - Tutoring Payment Manager{% endblock %}
+
+{% block content %}
+<h1>Record New Session</h1>
+
+<form method="POST">
+    <div class="grid">
+        <div>
+            <label for="student_id">Student *</label>
+            <select id="student_id" name="student_id" required>
+                <option value="">Select a student</option>
+                {% for _, student in students.iterrows() %}
+                <option value="{{ student.id }}">{{ student.name }} ({{ student.email }})</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label for="session_date">Session Date *</label>
+            <input type="date" id="session_date" name="session_date" required>
+        </div>
+    </div>
+
+    <div class="grid">
+        <div>
+            <label for="start_time">Start Time *</label>
+            <input type="time" id="start_time" name="start_time" required>
+        </div>
+        <div>
+            <label for="end_time">End Time *</label>
+            <input type="time" id="end_time" name="end_time" required>
+        </div>
+    </div>
+
+    <div class="grid">
+        <div>
+            <label for="duration_hours">Duration (Hours) *</label>
+            <input type="number" id="duration_hours" name="duration_hours" step="0.25" min="0.25" required>
+        </div>
+        <div>
+            <label for="session_cost">Session Cost ($) *</label>
+            <input type="number" id="session_cost" name="session_cost" step="0.01" min="0" required>
+        </div>
+    </div>
+
+    <div>
+        <label for="subject">Subject *</label>
+        <input type="text" id="subject" name="subject" required placeholder="e.g., Calculus I, Python Programming">
+    </div>
+
+    <div>
+        <label for="notes">Notes</label>
+        <textarea id="notes" name="notes" rows="3" placeholder="Session notes, topics covered, homework assigned, etc."></textarea>
+    </div>
+
+    <div style="margin-top: 2rem;">
+        <button type="submit">Record Session</button>
+        <a href="{{ url_for('sessions') }}" role="button" class="outline">Cancel</a>
+    </div>
+</form>
+
+<script>
+// Auto-calculate duration when times change
+document.addEventListener('DOMContentLoaded', function() {
+    const startTime = document.getElementById('start_time');
+    const endTime = document.getElementById('end_time');
+    const duration = document.getElementById('duration_hours');
+    const cost = document.getElementById('session_cost');
+    const studentSelect = document.getElementById('student_id');
+
+    function calculateDuration() {
+        if (startTime.value && endTime.value) {
+            const start = new Date(`2000-01-01T${startTime.value}`);
+            const end = new Date(`2000-01-01T${endTime.value}`);
+            const diffMs = end - start;
+            const diffHours = diffMs / (1000 * 60 * 60);
+            
+            if (diffHours > 0) {
+                duration.value = diffHours.toFixed(2);
+                updateCost();
+            }
+        }
+    }
+
+    function updateCost() {
+        const selectedStudentId = studentSelect.value;
+        const durationValue = parseFloat(duration.value);
+        
+        if (selectedStudentId && durationValue) {
+            // Default to $50/hour, could be enhanced to get actual rate from student data
+            const hourlyRate = 50.00;
+            cost.value = (durationValue * hourlyRate).toFixed(2);
+        }
+    }
+
+    startTime.addEventListener('change', calculateDuration);
+    endTime.addEventListener('change', calculateDuration);
+    duration.addEventListener('input', updateCost);
+    studentSelect.addEventListener('change', updateCost);
+
+    // Set today's date as default
+    document.getElementById('session_date').valueAsDate = new Date();
+});
+</script>
+{% endblock %}

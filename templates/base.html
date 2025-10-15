@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Tutoring Payment Manager{% endblock %}</title>
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
+    <style>
+        :root { --pico-font-size: 90%; }
+        main { max-width: 1200px; margin: 0 auto; padding: 1rem; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 2rem 0; }
+        .stat-card { text-align: center; padding: 1.5rem; background: var(--pico-card-background-color); border-radius: 8px; }
+        .stat-value { font-size: 2rem; font-weight: bold; color: var(--pico-primary-color); }
+        .table-container { overflow-x: auto; }
+        table { min-width: 100%; }
+        .flash-messages { margin: 1rem 0; }
+        .flash-success { color: var(--pico-ins-color); }
+        .flash-error { color: var(--pico-del-color); }
+        .nav-links { display: flex; gap: 1rem; margin: 1rem 0; flex-wrap: wrap; }
+        .nav-links a { text-decoration: none; padding: 0.5rem 1rem; background: var(--pico-secondary-background); border-radius: 4px; }
+        .balance-negative { color: var(--pico-del-color); font-weight: bold; }
+        .balance-positive { color: var(--pico-ins-color); }
+        .status-completed { color: var(--pico-ins-color); }
+        .status-scheduled { color: var(--pico-primary-color); }
+        .status-cancelled { color: var(--pico-del-color); }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <ul>
+                <li><strong>Tutoring Payment Manager</strong></li>
+            </ul>
+            <ul>
+                <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                <li><a href="{{ url_for('students') }}">Students</a></li>
+                <li><a href="{{ url_for('sessions') }}">Sessions</a></li>
+                <li><a href="{{ url_for('payments') }}">Payments</a></li>
+                <li><a href="{{ url_for('reports') }}">Reports</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="flash-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="container">
+        <hr>
+        <small>Tutoring Payment Management System © 2025</small>
+    </footer>
+
+    <script>
+        // Auto-hide flash messages after 5 seconds
+        setTimeout(() => {
+            const flashMessages = document.querySelector('.flash-messages');
+            if (flashMessages) {
+                flashMessages.style.opacity = '0';
+                setTimeout(() => flashMessages.remove(), 300);
+            }
+        }, 5000);
+    </script>
+</body>
+</html>
