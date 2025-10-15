@@ -12,6 +12,37 @@
     .grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit,minmax(240px,1fr)); }
     .muted { color: var(--pico-muted-color); }
     img { border-radius: 12px; width: 100%; height: auto; }
+    
+    /* Tutoring Section Styles */
+    .pricing-card { 
+      border: 1px solid var(--pico-border-color); 
+      border-radius: 8px; 
+      padding: 1.5rem; 
+      text-align: center; 
+    }
+    .price { 
+      font-size: 1.8rem; 
+      font-weight: bold; 
+      color: var(--pico-primary-color); 
+    }
+    .form-section {
+      background: var(--pico-card-background-color);
+      border-radius: 8px;
+      padding: 2rem;
+      margin: 2rem 0;
+    }
+    .schedule-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+    .schedule-option {
+      text-align: center;
+      padding: 1.5rem;
+      border: 1px solid var(--pico-border-color);
+      border-radius: 8px;
+    }
   </style>
 </head>
 <body>
@@ -20,6 +51,7 @@
       <ul><li><strong>Michael Cho</strong></li></ul>
       <ul>
         <li><a href="#work">Work</a></li>
+        <li><a href="#tutoring">Tutoring</a></li>
         <li><a href="#about">About</a></li>
         <li><a href="mailto:michael.sm.cho@email.com">Contact</a></li>
       </ul>
@@ -49,6 +81,172 @@
       </article>
     </div>
 
+    <h2 id="tutoring">Tutoring & Academic Support</h2>
+    <p>Leverage my engineering background and technical expertise to excel in mathematics, programming, and STEM subjects. I offer personalized tutoring sessions designed to build understanding, confidence, and problem-solving skills.</p>
+
+    <h3>Subjects I Tutor</h3>
+    <div class="grid">
+      <article>
+        <h4>Mathematics</h4>
+        <p>Pre-Calculus through Calculus III, Statistics, Linear Algebra, and Discrete Mathematics with real-world applications.</p>
+      </article>
+      <article>
+        <h4>Programming & CS</h4>
+        <p>Python, C++, data structures, algorithms, and robotics programming with hands-on projects.</p>
+      </article>
+      <article>
+        <h4>Engineering Fundamentals</h4>
+        <p>Engineering mathematics, system design principles, project management, and technical problem-solving.</p>
+      </article>
+    </div>
+
+    <h3>Pricing & Packages</h3>
+    <div class="grid">
+      <div class="pricing-card">
+        <h4>Individual Session</h4>
+        <div class="price">$50/hr</div>
+        <p>Single tutoring session</p>
+        <ul style="text-align: left; font-size: 0.9rem;">
+          <li>1-on-1 personalized instruction</li>
+          <li>Customized learning materials</li>
+          <li>Flexible scheduling</li>
+        </ul>
+      </div>
+      <div class="pricing-card">
+        <h4>Weekly Package</h4>
+        <div class="price">$180/month</div>
+        <p>4 sessions per month</p>
+        <ul style="text-align: left; font-size: 0.9rem;">
+          <li>Regular progress tracking</li>
+          <li>Homework support</li>
+          <li>Exam preparation</li>
+        </ul>
+      </div>
+      <div class="pricing-card">
+        <h4>Intensive Package</h4>
+        <div class="price">$380/month</div>
+        <p>8 sessions per month</p>
+        <ul style="text-align: left; font-size: 0.9rem;">
+          <li>Accelerated learning</li>
+          <li>Project-based learning</li>
+          <li>Career guidance</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h3>Schedule a Tutoring Session</h3>
+      <p>Choose your preferred scheduling method below. I'll respond within 24 hours to confirm your session.</p>
+      
+      <div class="schedule-options">
+        <div class="schedule-option">
+          <h4>📧 Email Request</h4>
+          <p>Pre-filled email template</p>
+          <a href="mailto:michael.sm.cho@email.com?subject=Tutoring%20Session%20Request&body=Hi%20Michael,%0D%0A%0D%0AI'd%20like%20to%20schedule%20a%20tutoring%20session.%0D%0A%0D%0AStudent%20Name:%20%0D%0ASubject%20Area:%20%0D%0AExperience%20Level:%20%0D%0APackage%20Preference:%20%0D%0APreferred%20Date:%20%0D%0APreferred%20Time:%20%0D%0ATime%20Zone:%20%0D%0A%0D%0AAdditional%20Notes:%20%0D%0A%0D%0AThank%20you!" 
+             role="button" 
+             class="outline">
+            Send Scheduling Email
+          </a>
+        </div>
+        
+        <div class="schedule-option">
+          <h4>📋 Detailed Form</h4>
+          <p>Complete scheduling information</p>
+          <button type="button" onclick="showTutoringForm()" role="button">
+            Fill Out Form
+          </button>
+        </div>
+      </div>
+
+      <!-- Detailed Form (hidden by default) -->
+      <div id="tutoringForm" style="display: none; margin-top: 2rem;">
+        <h4>Detailed Scheduling Form</h4>
+        <form id="schedulingForm">
+          <div class="grid">
+            <div>
+              <label for="student_name">Full Name</label>
+              <input type="text" id="student_name" name="student_name" required>
+            </div>
+            <div>
+              <label for="student_email">Email Address</label>
+              <input type="email" id="student_email" name="student_email" required>
+            </div>
+          </div>
+          
+          <div class="grid">
+            <div>
+              <label for="subject_area">Subject Area</label>
+              <select id="subject_area" name="subject_area" required>
+                <option value="">Select a subject</option>
+                <option value="Mathematics">Mathematics</option>
+                <option value="Python Programming">Python Programming</option>
+                <option value="C++ Programming">C++ Programming</option>
+                <option value="Data Structures & Algorithms">Data Structures & Algorithms</option>
+                <option value="Robotics/ROS">Robotics/ROS</option>
+                <option value="Engineering Mathematics">Engineering Mathematics</option>
+                <option value="Other">Other (specify in notes)</option>
+              </select>
+            </div>
+            <div>
+              <label for="experience_level">Experience Level</label>
+              <select id="experience_level" name="experience_level" required>
+                <option value="">Select your level</option>
+                <option value="Beginner">Beginner</option>
+                <option value="Intermediate">Intermediate</option>
+                <option value="Advanced">Advanced</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid">
+            <div>
+              <label for="package_type">Preferred Package</label>
+              <select id="package_type" name="package_type" required>
+                <option value="">Select a package</option>
+                <option value="Individual Session">Individual Session ($50/hr)</option>
+                <option value="Weekly Package">Weekly Package ($180/month)</option>
+                <option value="Intensive Package">Intensive Package ($380/month)</option>
+              </select>
+            </div>
+            <div>
+              <label for="student_timezone">Your Timezone</label>
+              <input type="text" id="student_timezone" name="student_timezone" placeholder="e.g., EST, PST, GMT+1">
+            </div>
+          </div>
+
+          <div class="grid">
+            <div>
+              <label for="preferred_date">Preferred Date</label>
+              <input type="date" id="preferred_date" name="preferred_date">
+            </div>
+            <div>
+              <label for="preferred_time">Preferred Time</label>
+              <select id="preferred_time" name="preferred_time">
+                <option value="">Select time</option>
+                <option value="9:00 AM">9:00 AM</option>
+                <option value="10:00 AM">10:00 AM</option>
+                <option value="11:00 AM">11:00 AM</option>
+                <option value="2:00 PM">2:00 PM</option>
+                <option value="3:00 PM">3:00 PM</option>
+                <option value="4:00 PM">4:00 PM</option>
+                <option value="6:00 PM">6:00 PM</option>
+                <option value="7:00 PM">7:00 PM</option>
+              </select>
+            </div>
+          </div>
+
+          <label for="alternative_times">Alternative Times (if preferred time not available)</label>
+          <textarea id="alternative_times" name="alternative_times" rows="2" placeholder="e.g., Weekdays 6-8 PM, Saturdays 10 AM-2 PM"></textarea>
+
+          <label for="learning_goals">Learning Goals & Current Challenges</label>
+          <textarea id="learning_goals" name="learning_goals" rows="3" placeholder="Tell me about what you'd like to achieve, specific topics you're struggling with, or projects you're working on..." required></textarea>
+
+          <button type="submit">Send Scheduling Request</button>
+          <small class="muted">This will create a pre-filled email for you to send.</small>
+        </form>
+      </div>
+    </div>
+
     <h2 id="about">About</h2>
     <p>
       I build practical automation and perception demos while preparing for an MS in robotics (perception).
@@ -64,6 +262,47 @@
   <footer>
     <small class="muted">© <span id="y"></span> Michael Cho</small>
   </footer>
-  <script>document.getElementById('y').textContent = new Date().getFullYear()</script>
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // Set minimum date to today for tutoring form
+    const today = new Date().toISOString().split('T')[0];
+    const preferredDateInput = document.getElementById('preferred_date');
+    if (preferredDateInput) {
+      preferredDateInput.min = today;
+    }
+    
+    function showTutoringForm() {
+      const form = document.getElementById('tutoringForm');
+      if (form.style.display === 'none') {
+        form.style.display = 'block';
+      } else {
+        form.style.display = 'none';
+      }
+    }
+
+    // Enhanced form submission for tutoring
+    const schedulingForm = document.getElementById('schedulingForm');
+    if (schedulingForm) {
+      schedulingForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        let emailBody = "Hi Michael,\\n\\nI'd like to schedule a tutoring session with the following details:\\n\\n";
+        
+        for (let [key, value] of formData.entries()) {
+          if (value) {
+            const fieldName = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+            emailBody += fieldName + ": " + value + "\\n";
+          }
+        }
+        
+        emailBody += "\\nThank you!";
+        
+        const mailtoLink = `mailto:michael.sm.cho@email.com?subject=Tutoring Session Request&body=${encodeURIComponent(emailBody)}`;
+        window.location.href = mailtoLink;
+      });
+    }
+  </script>
 </body>
 </html>
